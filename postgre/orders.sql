@@ -22,12 +22,17 @@ where total_price = 0;
 
 -- 4. Récupérer le montant total pour chaque commande et afficher la date de commande
 -- ainsi que le nom et le prénom du client.
-select ol.total_price,
+
+select c.id, 
 c.purchase_date,
-cl.last_name, cl.first_name 
+cl.last_name, cl.first_name, 
+sum(ol.total_price) as total_amount
 from order_line ol 
 join customer_order c on ol.order_id = c.id 
-join client cl on c.client_id = cl.id;
+join client cl on c.client_id = cl.id
+group by c.id, 
+c.purchase_date,
+cl.last_name, cl.first_name; 
 
 -- 5. Récupérer le montant global de toutes les commandes, pour chaque mois.
 select extract(month from co.purchase_date) as order_month,
